@@ -43,9 +43,8 @@ GitHub Actions allows you to build your app on macOS, Windows and Linux without 
              # (No need to define this secret in the repo settings)
              github_token: ${{ secrets.github_token }}
 
-             # If the commit is tagged with a version (e.g. "v1.0.0"),
-             # release the app after building
-             release: ${{ startsWith(github.ref, 'refs/tags/v') }}
+             # See https://www.electron.build/configuration/publish options: "onTag", "onTagOrDraft", "always", "never"
+             publish: "never"
    ```
 
 ## Usage

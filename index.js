@@ -65,7 +65,7 @@ const getInput = (name, required) => {
  */
 const runAction = () => {
 	const platform = getPlatform();
-	const release = getInput("release", true) === "true";
+	const publish = getInput("publish", "never");
 	const pkgRoot = getInput("package_root", true);
 	const buildScriptName = getInput("build_script_name", true);
 	const skipBuild = getInput("skip_build") === "true";
@@ -125,14 +125,13 @@ const runAction = () => {
 		}
 	}
 
-	log(`Building${release ? " and releasing" : ""} the Electron app…`);
+	log(`Building the Electron app… publish policy: ${publish}`);
 	const cmd = useVueCli ? "vue-cli-service electron:build" : "electron-builder";
 	for (let i = 0; i < maxAttempts; i += 1) {
 		try {
 			run(
-				`${useNpm ? "npx --no-install" : "yarn run"} ${cmd} --${platform} ${
-					release ? "--publish always" : ""
-				} ${args}`,
+				`${useNpm ? "npx --no-install" : "yarn run"} ${cmd} --${platform}
+					--publish ${publish} ${args}`,
 				appRoot,
 			);
 			break;
